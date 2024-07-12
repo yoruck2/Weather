@@ -13,6 +13,8 @@ class BaseViewController<RootView: UIView>: UIViewController {
     
     override func loadView() {
         view = rootView
+        navigationController?.isNavigationBarHidden = true
+        navigationController?.isToolbarHidden = false
     }
     
     override func viewDidLoad() {
@@ -21,6 +23,12 @@ class BaseViewController<RootView: UIView>: UIViewController {
         configureHierarchy()
         configureLayout()
         configureView()
+        
+        let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let mapItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+        let citySearchItem = UIBarButtonItem(barButtonSystemItem: .trash, target: nil, action: nil)
+        
+        setToolbarItems([flexibleSpaceItem, mapItem, citySearchItem], animated: true)
     }
     
     func configureHierarchy() {}
