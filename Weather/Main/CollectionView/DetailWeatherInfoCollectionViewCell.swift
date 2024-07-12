@@ -5,4 +5,8 @@
 //  Created by dopamint on 7/12/24.
 //
 
-import Foundation
+import UIKit
+
+class DetailWeatherInfoCollectionViewCell: UICollectionViewCell {
+    
+}
