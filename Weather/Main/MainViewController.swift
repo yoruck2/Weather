@@ -7,13 +7,16 @@
 
 import UIKit
 
-class MainViewController: BaseViewController {
+class MainViewController: BaseViewController<MainView> {
+    
+    let network = NetworkService.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        network.request(api: .forecast(lat: 20, lon: 20), model: Forecast.self) { response, error in
+            dump(response)
+        }
     }
-
 
 }
 
