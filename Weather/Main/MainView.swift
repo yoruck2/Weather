@@ -15,7 +15,7 @@ import Then
 
 class MainView: BaseView {
     
-    let backgroundImage = UIImageView().then {
+    let backgroundImageView = UIImageView().then {
         $0.alpha = 0.5
         $0.image = UIImage(named: "cloud")
     }
@@ -37,34 +37,104 @@ class MainView: BaseView {
         $0.headerLabel.makeIconLabel(with: "thermometer.medium", text: "위치")
     }
     
-    let threeHoursForecastCollectionView = UICollectionView()
+    let threeHoursForecastCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.threeHoursForecastCollectionViewLayout)
     let fiveDaysForecastTableView = UITableView()
     let mapView = MKMapView()
     let detailWeatherInfoCollectionView = UICollectionView()
     
     override func configureHierarchy() {
-        addSubview(backgroundImage)
+        addSubview(backgroundImageView)
         addSubview(mainScrollView)
         
         mainScrollView.addSubview(contentView)
         
         contentView.addSubview(cityNameLabel)
-        contentView.addSubview(cityNameLabel)
+        contentView.addSubview(temperatureLabel)
         contentView.addSubview(weatherDescriptionLabel)
         contentView.addSubview(maxMinTemperatureLabel)
         
         contentView.addSubview(threeHoursForecastView)
         contentView.addSubview(fiveDaysForecastView)
         contentView.addSubview(locationMapView)
-        contentView.addSubview(detailWeatherInfoCollectionView)
         
         threeHoursForecastView.addSubview(threeHoursForecastCollectionView)
         fiveDaysForecastView.addSubview(fiveDaysForecastTableView)
         locationMapView.addSubview(mapView)
-        
+        contentView.addSubview(detailWeatherInfoCollectionView)
     }
     
     override func configureLayout() {
+        
+        // MARK: backgroundViews -
+        backgroundImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        mainScrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        contentView.snp.makeConstraints { make in
+            // horizontal로는 안되나..?
+            make.width.equalTo(mainScrollView.snp.width)
+            make.verticalEdges.equalTo(mainScrollView)
+        }
+        
+        // MARK: topLabels -
+        cityNameLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(20)
+            make.centerX.equalToSuperview()
+        }
+        temperatureLabel.snp.makeConstraints { make in
+            make.top.equalTo(cityNameLabel.snp.bottom)
+            make.centerX.equalTo(cityNameLabel)
+        }
+        weatherDescriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(temperatureLabel.snp.bottom)
+            make.centerX.equalTo(cityNameLabel)
+        }
+        maxMinTemperatureLabel.snp.makeConstraints { make in
+            make.top.equalTo(weatherDescriptionLabel.snp.bottom)
+            make.centerX.equalTo(cityNameLabel)
+        }
+        
+        // MARK: GroupViews -
+        threeHoursForecastView.snp.makeConstraints { make in
+            make.top.equalTo(maxMinTemperatureLabel.snp.bottom).offset(30)
+            make.horizontalEdges.equalToSuperview().inset(15)
+            
+            
+            make.height.equalTo(120)
+        }
+        fiveDaysForecastView.snp.makeConstraints { make in
+            make.top.equalTo(weatherDescriptionLabel.snp.bottom)
+            make.horizontalEdges.equalToSuperview().inset(15)
+            make.height.equalTo(420)
+        }
+        locationMapView.snp.makeConstraints { make in
+            make.top.equalTo(weatherDescriptionLabel.snp.bottom)
+            make.horizontalEdges.equalToSuperview().inset(15)
+            make.height.equalTo(320)
+        }
+        
+        // MARK: innerViews -
+        threeHoursForecastCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(threeHoursForecastView.headerLabel.snp.bottom).offset(5)
+            make.horizontalEdges.equalTo(fiveDaysForecastView.headerLabel)
+        }
+        fiveDaysForecastTableView.snp.makeConstraints { make in
+            make.top.equalTo(fiveDaysForecastView.headerLabel.snp.bottom).offset(5)
+            make.horizontalEdges.equalTo(threeHoursForecastView.headerLabel)
+        }
+        mapView.snp.makeConstraints { make in
+            make.top.equalTo(locationMapView.headerLabel.snp.bottom).offset(5)
+            make.horizontalEdges.bottom.equalToSuperview().inset(5)
+        }
+        
+        // MARK: Bottom -
+        detailWeatherInfoCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(mapView.snp.bottom).offset(5)
+            make.horizontalEdges.equalToSuperview().inset(15)
+            make.bottom.equalToSuperview()
+        }
         
     }
     

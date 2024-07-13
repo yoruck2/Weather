@@ -11,7 +11,7 @@ extension UILabel {
     
     func makeIconLabel(with symbolName: String, text: String) {
         let attachment = NSTextAttachment()
-        attachment.image = UIImage(named: symbolName)
+        attachment.image = UIImage(systemName: symbolName)
         let attachmentString = NSAttributedString(attachment: attachment)
         let myString = NSMutableAttributedString(string: text)
         myString.append(attachmentString)
