@@ -25,10 +25,10 @@ class BaseViewController<RootView: UIView>: UIViewController {
         configureView()
         
         let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let mapItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
-        let citySearchItem = UIBarButtonItem(barButtonSystemItem: .trash, target: nil, action: nil)
+        let mapItem = UIBarButtonItem(image: UIImage(systemName: "calendar"), style: .plain, target: nil, action: nil)
+        let citySearchItem = UIBarButtonItem(image: UIImage(systemName: "calendar"), style: .plain, target: nil, action: nil)
         
-        setToolbarItems([flexibleSpaceItem, mapItem, citySearchItem], animated: true)
+        setToolbarItems([mapItem, flexibleSpaceItem, citySearchItem], animated: true)
     }
     
     func configureHierarchy() {}
