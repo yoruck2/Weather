@@ -26,7 +26,7 @@ struct NetworkService {
                 switch response.result {
                 case .success(let value):
                     completion(value, nil)
-                    print("성공")
+//                    print("성공")
                 case .failure(let error):
                     completion(nil, error)
                     print("실패")
