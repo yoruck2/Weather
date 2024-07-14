@@ -39,7 +39,6 @@
 		84907F312C4124BC006C150D /* FiveDaysForecastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84907F302C4124BC006C150D /* FiveDaysForecastTableViewCell.swift */; };
 		84907F332C41607D006C150D /* UICollectionviewLayout+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84907F322C41607D006C150D /* UICollectionviewLayout+.swift */; };
 		84907F372C43FAD2006C150D /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84907F362C43FAD2006C150D /* Observable.swift */; };
-		84907F392C44104C006C150D /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84907F382C44104C006C150D /* UIScrollView+.swift */; };
 		84907F3B2C442315006C150D /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84907F3A2C442314006C150D /* MainViewModel.swift */; };
 		84907F3E2C442442006C150D /* CitySearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84907F3D2C442442006C150D /* CitySearchViewController.swift */; };
 		84907F402C44246B006C150D /* CitySearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84907F3F2C44246B006C150D /* CitySearchView.swift */; };
@@ -82,7 +81,6 @@
 		84907F302C4124BC006C150D /* FiveDaysForecastTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveDaysForecastTableViewCell.swift; sourceTree = "<group>"; };
 		84907F322C41607D006C150D /* UICollectionviewLayout+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionviewLayout+.swift"; sourceTree = "<group>"; };
 		84907F362C43FAD2006C150D /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
-		84907F382C44104C006C150D /* UIScrollView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+.swift"; sourceTree = "<group>"; };
 		84907F3A2C442314006C150D /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		84907F3D2C442442006C150D /* CitySearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySearchViewController.swift; sourceTree = "<group>"; };
 		84907F3F2C44246B006C150D /* CitySearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySearchView.swift; sourceTree = "<group>"; };
@@ -200,7 +198,6 @@
 				84907F002C40033F006C150D /* URL+.swift */,
 				84907F222C411DF6006C150D /* UILabel+.swift */,
 				84907F322C41607D006C150D /* UICollectionviewLayout+.swift */,
-				84907F382C44104C006C150D /* UIScrollView+.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -365,7 +362,6 @@
 				84907F442C442AF3006C150D /* CityTableViewCell.swift in Sources */,
 				84907F292C4123BC006C150D /* ThreeHoursForecastCollectionViewCell.swift in Sources */,
 				84907F482C44435C006C150D /* CitySearchViewModel.swift in Sources */,
-				84907F392C44104C006C150D /* UIScrollView+.swift in Sources */,
 				84907EC42C3EF67B006C150D /* AppDelegate.swift in Sources */,
 				84907EF52C3FF7D5006C150D /* BaseViewController.swift in Sources */,
 				84907EF72C3FF827006C150D /* BaseTableViewCell.swift in Sources */,
