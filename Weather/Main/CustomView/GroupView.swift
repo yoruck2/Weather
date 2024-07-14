@@ -16,10 +16,8 @@ class GroupView: BaseView {
         
         layer.cornerRadius = 15
         clipsToBounds = true
-        backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-//        alpha = 0.5
-        // opacity !
-        layer.borderColor = UIColor(named: "darkGray")?.cgColor
+        backgroundColor = UIColor(white: 0.2, alpha: 0.2)
+        layer.borderColor = UIColor(white: 0.2, alpha: 0.7).cgColor
         layer.borderWidth = 1
     }
     
@@ -29,8 +27,8 @@ class GroupView: BaseView {
     
     override func configureLayout() {
         headerLabel.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalToSuperview().inset(5)
-            make.height.equalTo(10)
+            make.top.horizontalEdges.equalToSuperview().inset(15)
+            make.height.equalTo(20)
         }
     }
 }
