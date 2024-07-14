@@ -27,11 +27,15 @@ class DetailWeatherInfoCollectionViewCell: BaseCollectionViewCell {
         }
         valueLabel.snp.makeConstraints { make in
             make.top.equalTo(backView.headerLabel.snp.bottom)
+            make.leading.equalTo(backView.headerLabel.snp.leading)
         }
-        
-    }
-    
-    override func configureView() {
-        
+        unitLabel.snp.makeConstraints { make in
+            make.top.equalTo(valueLabel.snp.bottom)
+            make.leading.equalTo(valueLabel.snp.leading)
+        }
+        addtionalInfoLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(backView.snp.bottom).inset(10)
+            make.leading.equalTo(valueLabel)
+        }
     }
 }
