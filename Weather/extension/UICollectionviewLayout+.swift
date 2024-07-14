@@ -23,7 +23,7 @@ extension UICollectionViewLayout {
     
     static var detailWeatherInfoCollectionViewLayout: UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
-        let sectionSpacing: CGFloat = 10
+        let sectionSpacing: CGFloat = 5
         let cellSpacing: CGFloat = 5
         
         let width = UIScreen.main.bounds.width - (sectionSpacing * 2) - (cellSpacing * 2)

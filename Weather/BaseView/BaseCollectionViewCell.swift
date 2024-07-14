@@ -16,7 +16,7 @@ class BaseCollectionViewCell: UICollectionViewCell {
         configureView()
         layer.cornerRadius = 15
         clipsToBounds = true
-        backgroundColor = #colorLiteral(red: 0.1098036841, green: 0.1098041013, blue: 0.1183908954, alpha: 1)
+//        backgroundColor = .clear
     }
     func configureHierarchy() {}
     func configureLayout() {}

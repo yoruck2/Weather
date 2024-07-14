@@ -15,6 +15,7 @@ class BaseTableViewCell: UITableViewCell {
         configureHierarchy()
         configureLayout()
         configureView()
+        backgroundColor = .clear
     }
     func configureHierarchy() {}
     func configureLayout() {}
