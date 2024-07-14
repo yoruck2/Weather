@@ -13,8 +13,6 @@ class BaseViewController<RootView: UIView>: UIViewController {
     
     override func loadView() {
         view = rootView
-        navigationController?.isNavigationBarHidden = true
-        navigationController?.isToolbarHidden = false
     }
     
     override func viewDidLoad() {
@@ -22,6 +20,11 @@ class BaseViewController<RootView: UIView>: UIViewController {
         configureHierarchy()
         configureLayout()
         configureView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.isNavigationBarHidden = true
+        navigationController?.isToolbarHidden = false
     }
     
     func configureHierarchy() {}

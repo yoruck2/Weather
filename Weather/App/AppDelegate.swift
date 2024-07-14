@@ -12,22 +12,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-//        UILabel.appearance().font = .boldSystemFont(ofSize: 20)
         UILabel.appearance().textColor = .white
         UIButton.appearance().tintColor = .white
         
-//        UITextField.appearance().font = .boldSystemFont(ofSize: 20)
-        
-        // 네비바 Appearance
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.backgroundColor = .black
         navigationBarAppearance.titleTextAttributes = [
             .foregroundColor: UIColor.white
         ]
-        
-        
-//        UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-//        UINavigationBar.appearance().standardAppearance = navigationBarAppearance2
         return true
     }
 
