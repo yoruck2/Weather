@@ -13,18 +13,34 @@ class MainViewController: BaseViewController<MainView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         network.request(api: .forecast(lat: 20, lon: 20), model: Forecast.self) { response, error in
-            dump(response)
+//            dump(response)
         }
     }
     
     override func configureView() {
         let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let mapItem = UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: nil, action: nil)
-        let citySearchItem = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: nil, action: nil)
-        
+        let mapItem = UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: self, action: #selector(scroll))
+        let citySearchItem = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: self, action: #selector(citySearchItemTapped))
         setToolbarItems([mapItem, flexibleSpaceItem, citySearchItem], animated: true)
         setUpListViews()
+    }
+    @objc
+    func scroll() {
+        let boundsHeight = rootView.mainScrollView.bounds.size.height
+        let maximumOffset = boundsHeight
+        
+        if maximumOffset > 0 {
+            let bottomOffset = CGPoint(x: 0, y: maximumOffset)
+            rootView.mainScrollView.setContentOffset(bottomOffset, animated: true)
+        }
+    }
+    
+    @objc
+    func citySearchItemTapped() {
+        let nextVC = CitySearchViewController()
+        navigationController?.pushViewController(nextVC, animated: true)
     }
     
     func setUpListViews() {
@@ -36,7 +52,6 @@ class MainViewController: BaseViewController<MainView> {
         rootView.detailWeatherInfoCollectionView.dataSource = self
         rootView.detailWeatherInfoCollectionView.register(DetailWeatherInfoCollectionViewCell.self,
                                                            forCellWithReuseIdentifier: DetailWeatherInfoCollectionViewCell.id)
-        
         rootView.fiveDaysForecastTableView.delegate = self
         rootView.fiveDaysForecastTableView.dataSource = self
         rootView.fiveDaysForecastTableView.register(FiveDaysForecastTableViewCell.self,
