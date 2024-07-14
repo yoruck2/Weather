@@ -22,25 +22,46 @@ class MainView: BaseView {
     let mainScrollView = UIScrollView()
     let contentView = BaseView()
     
-    let cityNameLabel = CenterLabel()
-    let temperatureLabel = CenterLabel()
-    let weatherDescriptionLabel = CenterLabel()
-    let maxMinTemperatureLabel = CenterLabel()
+    let cityNameLabel = CenterLabel().then {
+        $0.text = "Jeju City"
+        $0.font = Font.medium30
+    }
+    let temperatureLabel = CenterLabel().then {
+        $0.text = "8.8"
+        $0.font = Font.medium90
+    }
+    let weatherDescriptionLabel = CenterLabel().then {
+        $0.text = "Broken Clouds"
+        $0.font = Font.medium20
+    }
+    let maxMinTemperatureLabel = CenterLabel().then {
+        $0.text = "최고 7.0 | 최저 -4.2"
+        $0.font = Font.medium20
+    }
     
     let threeHoursForecastView = GroupView().then {
-        $0.headerLabel.makeIconLabel(with: "calendar", text: "3시간 간격의 일기예보")
+        $0.headerLabel.makeIconLabel(with: "calendar", text: " 3시간 간격의 일기예보")
     }
     let fiveDaysForecastView = GroupView().then {
-        $0.headerLabel.makeIconLabel(with: "calendar", text: "5일 간의 일기예보")
+        $0.headerLabel.makeIconLabel(with: "calendar", text: " 5일 간의 일기예보")
     }
     let locationMapView = GroupView().then {
-        $0.headerLabel.makeIconLabel(with: "thermometer.medium", text: "위치")
+        $0.headerLabel.makeIconLabel(with: "thermometer.medium", text: " 위치")
     }
     
-    let threeHoursForecastCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.threeHoursForecastCollectionViewLayout)
-    let fiveDaysForecastTableView = UITableView()
+    let threeHoursForecastCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.threeHoursForecastCollectionViewLayout).then {
+        $0.register(ThreeHoursForecastCollectionViewCell.self, forCellWithReuseIdentifier: ThreeHoursForecastCollectionViewCell.id)
+        $0.backgroundColor = .clear
+    }
+    let fiveDaysForecastTableView = UITableView().then {
+        $0.register(FiveDaysForecastTableViewCell.self, forCellReuseIdentifier: FiveDaysForecastTableViewCell.id)
+        $0.backgroundColor = .clear
+    }
     let mapView = MKMapView()
-    let detailWeatherInfoCollectionView = UICollectionView()
+    let detailWeatherInfoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.detailWeatherInfoCollectionViewLayout).then {
+        $0.register(DetailWeatherInfoCollectionViewCell.self, forCellWithReuseIdentifier: DetailWeatherInfoCollectionViewCell.id)
+        $0.backgroundColor = .clear
+    }
     
     override func configureHierarchy() {
         addSubview(backgroundImageView)
@@ -71,11 +92,13 @@ class MainView: BaseView {
         }
         mainScrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+            make.bottom.equalTo(safeAreaLayoutGuide)
         }
         contentView.snp.makeConstraints { make in
             // horizontal로는 안되나..?
-            make.width.equalTo(mainScrollView.snp.width)
-            make.verticalEdges.equalTo(mainScrollView)
+            make.verticalEdges.equalToSuperview()
+            make.width.equalToSuperview()
+
         }
         
         // MARK: topLabels -
@@ -98,47 +121,64 @@ class MainView: BaseView {
         
         // MARK: GroupViews -
         threeHoursForecastView.snp.makeConstraints { make in
-            make.top.equalTo(maxMinTemperatureLabel.snp.bottom).offset(30)
+            make.top.equalTo(maxMinTemperatureLabel.snp.bottom).offset(70)
             make.horizontalEdges.equalToSuperview().inset(15)
-            
-            
-            make.height.equalTo(120)
+            make.height.equalTo(locationMapView.snp.width).multipliedBy(0.55)
         }
         fiveDaysForecastView.snp.makeConstraints { make in
-            make.top.equalTo(weatherDescriptionLabel.snp.bottom)
+            make.top.equalTo(threeHoursForecastView.snp.bottom).offset(15)
             make.horizontalEdges.equalToSuperview().inset(15)
-            make.height.equalTo(420)
+            make.height.equalTo(locationMapView.snp.width).multipliedBy(0.9)
         }
         locationMapView.snp.makeConstraints { make in
-            make.top.equalTo(weatherDescriptionLabel.snp.bottom)
+            make.top.equalTo(fiveDaysForecastView.snp.bottom).offset(15)
             make.horizontalEdges.equalToSuperview().inset(15)
-            make.height.equalTo(320)
+            make.height.equalTo(locationMapView.snp.width)
         }
         
         // MARK: innerViews -
         threeHoursForecastCollectionView.snp.makeConstraints { make in
             make.top.equalTo(threeHoursForecastView.headerLabel.snp.bottom).offset(5)
             make.horizontalEdges.equalTo(fiveDaysForecastView.headerLabel)
+            make.bottom.equalTo(threeHoursForecastView)
         }
         fiveDaysForecastTableView.snp.makeConstraints { make in
             make.top.equalTo(fiveDaysForecastView.headerLabel.snp.bottom).offset(5)
             make.horizontalEdges.equalTo(threeHoursForecastView.headerLabel)
+            make.bottom.equalTo(fiveDaysForecastView)
         }
         mapView.snp.makeConstraints { make in
             make.top.equalTo(locationMapView.headerLabel.snp.bottom).offset(5)
-            make.horizontalEdges.bottom.equalToSuperview().inset(5)
+            make.horizontalEdges.bottom.equalToSuperview().inset(15)
+            make.bottom.equalTo(locationMapView)
         }
         
         // MARK: Bottom -
         detailWeatherInfoCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(mapView.snp.bottom).offset(5)
+            make.top.equalTo(mapView.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(15)
+            make.height.equalTo(detailWeatherInfoCollectionView.snp.width).multipliedBy(1.2)
             make.bottom.equalToSuperview()
         }
-        
-    }
-    
-    override func configureView() {
-        
     }
 }
+//
+//import SwiftUI
+//struct ViewControllerRepresentable: UIViewControllerRepresentable {
+//   
+//   // update
+//   func updateUIViewController(_ uiViewController: UIViewController, context: Context){
+//       
+//   }
+//   // makeui
+//   @available(iOS 13.0, *)
+//   func makeUIViewController(context: Context) -> UIViewController {
+//       MainViewController()
+//   }
+//}
+//
+//struct ViewController_Previews: PreviewProvider {
+//   static var previews: some View{
+//       ViewControllerRepresentable().previewDisplayName("아이폰 15프로")
+//   }
+//}
