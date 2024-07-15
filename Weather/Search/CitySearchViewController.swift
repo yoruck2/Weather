@@ -59,7 +59,11 @@ extension CitySearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        cityHandler?(viewModel.filteredCities.value[indexPath.row])
+        let cityData = viewModel.filteredCities.value[indexPath.row]
+        
+        cityHandler?(cityData)
+        UserDefaultsHelper.standard.coordinate = ["lat": cityData.coord.lat,
+                                                  "lon": cityData.coord.lon]
         navigationController?.popViewController(animated: true)
     }
 }
