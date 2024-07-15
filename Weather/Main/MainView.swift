@@ -23,19 +23,19 @@ class MainView: BaseView {
     let contentView = BaseView()
     
     let cityNameLabel = CenterLabel().then {
-        $0.text = "Jeju City"
+        
         $0.font = Font.medium30
     }
     let temperatureLabel = CenterLabel().then {
-        $0.text = "8.8"
+        
         $0.font = Font.medium90
     }
     let weatherDescriptionLabel = CenterLabel().then {
-        $0.text = "Broken Clouds"
+        
         $0.font = Font.medium20
     }
     let maxMinTemperatureLabel = CenterLabel().then {
-        $0.text = "최고 7.0 | 최저 -4.2"
+        
         $0.font = Font.medium20
     }
     
@@ -162,23 +162,3 @@ class MainView: BaseView {
         }
     }
 }
-//
-//import SwiftUI
-//struct ViewControllerRepresentable: UIViewControllerRepresentable {
-//   
-//   // update
-//   func updateUIViewController(_ uiViewController: UIViewController, context: Context){
-//       
-//   }
-//   // makeui
-//   @available(iOS 13.0, *)
-//   func makeUIViewController(context: Context) -> UIViewController {
-//       MainViewController()
-//   }
-//}
-//
-//struct ViewController_Previews: PreviewProvider {
-//   static var previews: some View{
-//       ViewControllerRepresentable().previewDisplayName("아이폰 15프로")
-//   }
-//}

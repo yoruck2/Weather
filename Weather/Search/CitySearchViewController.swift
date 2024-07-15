@@ -9,13 +9,14 @@ import UIKit
 
 class CitySearchViewController: BaseViewController<CitySearchView> {
     
+    var cityHandler: ((City) -> Void)?
     private let viewModel = CitySearchViewModel()
 
     init() {
         super.init(nibName: "", bundle: .none)
         setupTableView()
         setupSearchBar()
-        viewModel.loadCities()
+        viewModel.loadCityList()
         bindViewModel()
     }
     required init?(coder: NSCoder) {
@@ -26,6 +27,7 @@ class CitySearchViewController: BaseViewController<CitySearchView> {
         navigationController?.isNavigationBarHidden = false
         navigationController?.isToolbarHidden = true
     }
+    
     private func setupTableView() {
         rootView.cityTableView.delegate = self
         rootView.cityTableView.dataSource = self
@@ -54,6 +56,11 @@ extension CitySearchViewController: UITableViewDelegate, UITableViewDataSource {
         cell.cityData = viewModel.filteredCities.value[indexPath.row]
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        cityHandler?(viewModel.filteredCities.value[indexPath.row])
+        navigationController?.popViewController(animated: true)
     }
 }
 

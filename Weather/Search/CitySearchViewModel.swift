@@ -11,7 +11,7 @@ class CitySearchViewModel {
     var cityList: [City] = []
     var filteredCities: Observable<[City]> = Observable([])
     
-    func loadCities() {
+    func loadCityList() {
         guard let data = loadBundleData() else { return }
         cityList = JSONParser.decode(data, model: [City].self) ?? []
         filteredCities.value = cityList
@@ -28,16 +28,14 @@ class CitySearchViewModel {
     }
     
     func filterCityList(with searchText: String, completion: @escaping ([City]) -> Void) {
-        DispatchQueue.global().async { [weak self] in
-            guard let self else {
-                return
-            }
+//        DispatchQueue.global().async { [weak self] in
+            
             
             let filtered = searchText.isEmpty ? cityList : cityList.filter { $0.name.lowercased().contains(searchText.lowercased()) || $0.country.lowercased().contains(searchText.lowercased())}
-            DispatchQueue.main.async {
+//            DispatchQueue.main.async {
                 self.filteredCities.value = filtered
                 completion(filtered)
-            }
+//            }
         }
     }
-}
+

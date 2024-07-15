@@ -46,6 +46,8 @@
 		84907F442C442AF3006C150D /* CityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84907F432C442AF3006C150D /* CityTableViewCell.swift */; };
 		84907F462C44309B006C150D /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84907F452C44309B006C150D /* JSONParser.swift */; };
 		84907F482C44435C006C150D /* CitySearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84907F472C44435C006C150D /* CitySearchViewModel.swift */; };
+		84907F4A2C4463C4006C150D /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84907F492C4463C4006C150D /* DateFormatter+.swift */; };
+		84907F4C2C447FB3006C150D /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84907F4B2C447FB3006C150D /* String+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +90,8 @@
 		84907F432C442AF3006C150D /* CityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTableViewCell.swift; sourceTree = "<group>"; };
 		84907F452C44309B006C150D /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		84907F472C44435C006C150D /* CitySearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySearchViewModel.swift; sourceTree = "<group>"; };
+		84907F492C4463C4006C150D /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
+		84907F4B2C447FB3006C150D /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +202,8 @@
 				84907F002C40033F006C150D /* URL+.swift */,
 				84907F222C411DF6006C150D /* UILabel+.swift */,
 				84907F322C41607D006C150D /* UICollectionviewLayout+.swift */,
+				84907F492C4463C4006C150D /* DateFormatter+.swift */,
+				84907F4B2C447FB3006C150D /* String+.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -216,8 +222,8 @@
 			isa = PBXGroup;
 			children = (
 				84907EC72C3EF67B006C150D /* MainViewController.swift */,
-				84907F162C40EBC7006C150D /* MainView.swift */,
 				84907F3A2C442314006C150D /* MainViewModel.swift */,
+				84907F162C40EBC7006C150D /* MainView.swift */,
 				84907F242C41235F006C150D /* CollectionView */,
 				84907F252C41236B006C150D /* TableView */,
 				84907F1D2C41044E006C150D /* CustomView */,
@@ -353,11 +359,13 @@
 				84907EF22C3FF7AE006C150D /* BaseView.swift in Sources */,
 				84907F212C41181C006C150D /* GroupView.swift in Sources */,
 				84907F2D2C412410006C150D /* DetailWeatherInfoCollectionViewCell.swift in Sources */,
+				84907F4C2C447FB3006C150D /* String+.swift in Sources */,
 				84907F132C400EE3006C150D /* Forecast.swift in Sources */,
 				84907F3B2C442315006C150D /* MainViewModel.swift in Sources */,
 				84907EF92C3FF83D006C150D /* BaseCollectionViewCell.swift in Sources */,
 				84907F232C411DF6006C150D /* UILabel+.swift in Sources */,
 				84907EC82C3EF67B006C150D /* MainViewController.swift in Sources */,
+				84907F4A2C4463C4006C150D /* DateFormatter+.swift in Sources */,
 				84907F332C41607D006C150D /* UICollectionviewLayout+.swift in Sources */,
 				84907F442C442AF3006C150D /* CityTableViewCell.swift in Sources */,
 				84907F292C4123BC006C150D /* ThreeHoursForecastCollectionViewCell.swift in Sources */,

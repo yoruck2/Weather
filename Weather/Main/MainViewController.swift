@@ -9,14 +9,16 @@ import UIKit
 
 class MainViewController: BaseViewController<MainView> {
     
+    let viewModel = MainViewModel()
     let network = NetworkService.shared
-
+    
+    var selectedCity: City?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        network.request(api: .forecast(lat: 20, lon: 20), model: Forecast.self) { response, error in
-//            dump(response)
-        }
+        bindViewModel()
+        viewModel.fetchWeatherData(lat: 37.56826, lon: 126.977829)
     }
     
     override func configureView() {
@@ -36,12 +38,35 @@ class MainViewController: BaseViewController<MainView> {
             rootView.mainScrollView.setContentOffset(bottomOffset, animated: true)
         }
     }
-    
     @objc
     func citySearchItemTapped() {
         let nextVC = CitySearchViewController()
+        nextVC.cityHandler = { city in
+            self.selectedCity = city
+            self.viewModel.fetchWeatherData(lat: city.coord.lat, lon: city.coord.lon)
+        }
         navigationController?.pushViewController(nextVC, animated: true)
     }
+    
+    func bindViewModel() {
+        viewModel.outputCurrentWeather.bind { [weak self] current in
+            self?.updateCurrentWeatherUI(current)
+        }
+        
+        viewModel.outputForecast.bind { [weak self] forecast in
+            self?.rootView.threeHoursForecastCollectionView.reloadData()
+            self?.rootView.fiveDaysForecastTableView.reloadData()
+            self?.rootView.detailWeatherInfoCollectionView.reloadData()
+        }
+    }
+    func updateCurrentWeatherUI(_ current: Current?) {
+            guard let current else { return }
+            rootView.cityNameLabel.text = current.name
+            rootView.temperatureLabel.text = "\(Int(current.main.temp))°"
+            rootView.weatherDescriptionLabel.text = current.weather.first?.description
+            rootView.maxMinTemperatureLabel.text = "최고 \(Int(current.main.tempMax))° | 최저 \(Int(current.main.tempMin))°"
+        
+        }
     
     func setUpListViews() {
         rootView.threeHoursForecastCollectionView.delegate = self
@@ -63,7 +88,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case rootView.threeHoursForecastCollectionView:
-            return 10
+            return viewModel.outputForecast.value?.list.prefix(10).count ?? 0
         case rootView.detailWeatherInfoCollectionView:
             return 4
         default:

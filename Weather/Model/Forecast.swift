@@ -19,32 +19,26 @@ struct Forecast: Decodable {
         let weather: [Weather]
         let clouds: Clouds
         let wind: Wind
-        let visibility: Int
-        let pop: Double // 강수확률
-        let sys: Sys
         let dtTxt: String
 
         enum CodingKeys: String, CodingKey {
-            case main, weather, clouds, wind, visibility, pop, sys
+            case main, weather, clouds, wind
             case dtTxt = "dt_txt"
         }
     }
     
     struct Main: Decodable {
-        let temp, feelsLike, tempMin, tempMax: Double
-        let pressure, seaLevel, grndLevel, humidity: Int
-        let tempKf: Double
+        let temp, tempMin, tempMax: Double
+        let pressure, humidity: Int
+//        let tempKf: Double
 
         enum CodingKeys: String, CodingKey {
             case temp
-            case feelsLike = "feels_like"
             case tempMin = "temp_min"
             case tempMax = "temp_max"
             case pressure
-            case seaLevel = "sea_level"
-            case grndLevel = "grnd_level"
             case humidity
-            case tempKf = "temp_kf"
+//            case tempKf = "temp_kf"
         }
     }
     
@@ -74,11 +68,7 @@ struct Forecast: Decodable {
         let name: String
         let coord: Coord
         let country: String
-        let population, timezone, sunrise, sunset: Int
-    }
-
-    struct Sys: Decodable { //  Part of the day (n - night, d - day)
-        let pod: Pod
+        let population, timezone: Int
     }
 
     enum Pod: String, Decodable {
