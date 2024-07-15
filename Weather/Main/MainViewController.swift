@@ -18,13 +18,53 @@ class MainViewController: BaseViewController<MainView> {
         super.viewDidLoad()
         
         bindViewModel()
-        viewModel.fetchWeatherData(lat: 37.56826, lon: 126.977829)
+        fetchCityData()
+    }
+    
+    // MARK: binding -
+    func bindViewModel() {
+        viewModel.outputCurrentWeather.bind { [self] current in
+            guard let current else { return }
+            rootView.cityNameLabel.text = current.name
+            rootView.temperatureLabel.text = "\(MeasurementFormatter.kelvinToCelsius(current.main.temp, .second))"
+            rootView.weatherDescriptionLabel.text = current.weather.first?.description
+            rootView.maxMinTemperatureLabel.text = "최고 \(MeasurementFormatter.kelvinToCelsius(current.main.tempMax, .second)) | 최저 \(MeasurementFormatter.kelvinToCelsius(current.main.tempMin, .second))"
+            
+            
+        }
+        
+        viewModel.outputForecast.bind { [weak self] forecast in
+            self?.rootView.threeHoursForecastCollectionView.reloadData()
+            self?.rootView.fiveDaysForecastTableView.reloadData()
+            self?.rootView.detailWeatherInfoCollectionView.reloadData()
+        }
+    }
+    
+    func fetchCityData() {
+        guard let coordinate = UserDefaultsHelper.standard.coordinate else {
+            viewModel.fetchWeatherData(lat: 37.56826, lon: 126.977829)
+            return
+        }
+        guard let lat = coordinate["lat"] as? Double,
+                let lon = coordinate["lon"] as? Double
+        else {
+            return
+        }
+        viewModel.fetchWeatherData(lat: lat, lon: lon)
     }
     
     override func configureView() {
-        let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let mapItem = UIBarButtonItem(image: UIImage(systemName: "map"), style: .plain, target: self, action: #selector(scroll))
-        let citySearchItem = UIBarButtonItem(image: UIImage(systemName: "list.bullet"), style: .plain, target: self, action: #selector(citySearchItemTapped))
+        let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, 
+                                                target: nil,
+                                                action: nil)
+        let mapItem = UIBarButtonItem(image: UIImage(systemName: "map"),
+                                      style: .plain,
+                                      target: self,
+                                      action: #selector(scroll))
+        let citySearchItem = UIBarButtonItem(image: UIImage(systemName: "list.bullet"),
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(citySearchItemTapped))
         setToolbarItems([mapItem, flexibleSpaceItem, citySearchItem], animated: true)
         setUpListViews()
     }
@@ -47,26 +87,6 @@ class MainViewController: BaseViewController<MainView> {
         }
         navigationController?.pushViewController(nextVC, animated: true)
     }
-    
-    func bindViewModel() {
-        viewModel.outputCurrentWeather.bind { [weak self] current in
-            self?.updateCurrentWeatherUI(current)
-        }
-        
-        viewModel.outputForecast.bind { [weak self] forecast in
-            self?.rootView.threeHoursForecastCollectionView.reloadData()
-            self?.rootView.fiveDaysForecastTableView.reloadData()
-            self?.rootView.detailWeatherInfoCollectionView.reloadData()
-        }
-    }
-    func updateCurrentWeatherUI(_ current: Current?) {
-            guard let current else { return }
-            rootView.cityNameLabel.text = current.name
-            rootView.temperatureLabel.text = "\(Int(current.main.temp))°"
-            rootView.weatherDescriptionLabel.text = current.weather.first?.description
-            rootView.maxMinTemperatureLabel.text = "최고 \(Int(current.main.tempMax))° | 최저 \(Int(current.main.tempMin))°"
-        
-        }
     
     func setUpListViews() {
         rootView.threeHoursForecastCollectionView.delegate = self
