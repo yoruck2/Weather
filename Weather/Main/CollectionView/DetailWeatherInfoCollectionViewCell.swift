@@ -11,7 +11,7 @@ class DetailWeatherInfoCollectionViewCell: BaseCollectionViewCell {
 
     let backView = GroupView()
     let valueLabel = UILabel().then {
-        $0.font = Font.medium25
+        $0.font = Font.medium30
     }
     let unitLabel = UILabel()
     let addtionalInfoLabel = UILabel()

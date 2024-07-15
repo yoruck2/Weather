@@ -8,28 +8,28 @@
 import Foundation
 
 extension DateFormatter {
-    static func formatDate(_ dateString: String) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        guard let date = dateFormatter.date (from: dateString) else {
-            return ""
-        }
-        
-        dateFormatter.dateFormat = "HH:mm"
-        return dateFormatter.string(from: date)
-    }
-    
-    static func formatDayOfWeek(_ dateString: String) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        guard let date = dateFormatter.date(from: dateString) else {
-            return ""
-        }
-        
-        dateFormatter.dateFormat = "E"
-        return dateFormatter.string(from: date)
-    }
-    
+//    static func formatDate(_ dateString: String) -> String {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//        guard let date = dateFormatter.date (from: dateString) else {
+//            return ""
+//        }
+//        
+//        dateFormatter.dateFormat = "HH:mm"
+//        return dateFormatter.string(from: date)
+//    }
+//    
+//    static func formatDayOfWeek(_ dateString: String) -> String {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//        guard let date = dateFormatter.date(from: dateString) else {
+//            return ""
+//        }
+//        
+//        dateFormatter.dateFormat = "E"
+//        return dateFormatter.string(from: date)
+//    }
+//    
     static func getWeatherIcon(_ iconCode: String) -> String {
         switch iconCode {
         case "01d": 

@@ -140,7 +140,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 cell.setUpCellData(header: ("wind", " 바람 속도"),
                                    value: "\(weather.wind.speed)m/s",
                                    unit: nil,
-                                   addtionalInfo: "\(weather.wind.gust!)m/s")
+                                   addtionalInfo: "\(weather.wind.gust ?? .nan)m/s")
             case 1:
                 cell.setUpCellData(header: ("cloud.fill", " 구름"),
                                    value: "\(weather.clouds.all)%",
