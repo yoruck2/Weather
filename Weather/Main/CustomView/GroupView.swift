@@ -9,7 +9,7 @@ import UIKit
 
 class GroupView: BaseView {
     
-    let headerLabel = UILabel()
+    var headerLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: .zero)

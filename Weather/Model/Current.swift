@@ -53,7 +53,7 @@ struct Current: Decodable {
         let feelsLike: Double
         let tempMin: Double
         let tempMax: Double
-        let pressure, humidity, seaLevel, grndLevel: Int
+        let pressure, humidity: Int
         
         enum CodingKeys: String, CodingKey {
             case temp
@@ -62,8 +62,7 @@ struct Current: Decodable {
             case tempMax = "temp_max"
             case pressure
             case humidity
-            case seaLevel = "sea_level"
-            case grndLevel = "grnd_level"
+
         }
     }
 }

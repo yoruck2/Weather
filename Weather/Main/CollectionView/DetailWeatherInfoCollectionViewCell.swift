@@ -8,11 +8,21 @@
 import UIKit
 
 class DetailWeatherInfoCollectionViewCell: BaseCollectionViewCell {
-    
+
     let backView = GroupView()
-    let valueLabel = UILabel()
+    let valueLabel = UILabel().then {
+        $0.font = Font.medium25
+    }
     let unitLabel = UILabel()
     let addtionalInfoLabel = UILabel()
+    
+
+    func setUpCellData(header: (String, String), value: String, unit: String?, addtionalInfo: String?) {
+        backView.headerLabel.makeIconLabel(with: header.0, text: header.1)
+        valueLabel.text = value
+        unitLabel.text = unit
+        addtionalInfoLabel.text = addtionalInfo
+    }
     
     override func configureHierarchy() {
         contentView.addSubview(backView)

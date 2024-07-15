@@ -29,8 +29,6 @@ class MainViewController: BaseViewController<MainView> {
             rootView.temperatureLabel.text = "\(MeasurementFormatter.kelvinToCelsius(current.main.temp, .second))"
             rootView.weatherDescriptionLabel.text = current.weather.first?.description
             rootView.maxMinTemperatureLabel.text = "최고 \(MeasurementFormatter.kelvinToCelsius(current.main.tempMax, .second)) | 최저 \(MeasurementFormatter.kelvinToCelsius(current.main.tempMin, .second))"
-            
-            
         }
         
         viewModel.outputForecast.bind { [weak self] forecast in
@@ -53,6 +51,7 @@ class MainViewController: BaseViewController<MainView> {
         viewModel.fetchWeatherData(lat: lat, lon: lon)
     }
     
+    // MARK: setUp toolBar -
     override func configureView() {
         let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, 
                                                 target: nil,
@@ -88,6 +87,7 @@ class MainViewController: BaseViewController<MainView> {
         navigationController?.pushViewController(nextVC, animated: true)
     }
     
+    // MARK: setUp listViews -
     func setUpListViews() {
         rootView.threeHoursForecastCollectionView.delegate = self
         rootView.threeHoursForecastCollectionView.dataSource = self
@@ -134,11 +134,34 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             else {
                 return UICollectionViewCell()
             }
-            cell.addtionalInfoLabel.text = "sd"
-            cell.backView.headerLabel.makeIconLabel(with: "star", text: "star")
-            cell.addtionalInfoLabel.text = "sd"
-            cell.unitLabel.text = "%"
-            cell.addtionalInfoLabel.text = "bbb"
+            guard let weather = viewModel.outputCurrentWeather.value else { return cell }
+            switch indexPath.item {
+            case 0:
+                cell.setUpCellData(header: ("wind", " 바람 속도"),
+                                   value: "\(weather.wind.speed)m/s",
+                                   unit: nil,
+                                   addtionalInfo: "\(weather.wind.gust!)m/s")
+            case 1:
+                cell.setUpCellData(header: ("cloud.fill", " 구름"),
+                                   value: "\(weather.clouds.all)%",
+                                   unit: nil,
+                                   addtionalInfo: nil)
+            case 2:
+                cell.setUpCellData(header: ("thermometer.high", " 기압"),
+                                   value: "\(weather.main.pressure.formatted())",
+                                   unit: "hps",
+                                   addtionalInfo: nil)
+            case 3:
+                cell.setUpCellData(header: ("humidity", " 습도"),
+                                   value: "\(weather.main.humidity)%",
+                                   unit: nil,
+                                   addtionalInfo: nil)
+            default:
+                cell.setUpCellData(header: ("-", "-"),
+                                   value: "",
+                                   unit: nil,
+                                   addtionalInfo: nil)
+            }
             return cell
             
         default:
