@@ -26,7 +26,7 @@ extension DateFormatter {
             return ""
         }
         
-        dateFormatter.dateFormat = "EEEE"
+        dateFormatter.dateFormat = "E"
         return dateFormatter.string(from: date)
     }
     
