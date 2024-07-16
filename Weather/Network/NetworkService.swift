@@ -8,10 +8,6 @@
 import Foundation
 import Alamofire
 
-enum NetworkError: Error {
-    case error
-}
-
 struct NetworkService {
     
     static let shared = NetworkService()
@@ -19,16 +15,16 @@ struct NetworkService {
     
     func request<T: Decodable>(api: APIRouter,
                                model: T.Type,
-                               completion: @escaping (T?, AFError?) -> Void) {
+                               completion: @escaping (Result<T, AFError>) -> Void) {
         AF.request(api)
             .validate(statusCode: 200..<300)
             .responseDecodable(of: T.self) { response in
                 switch response.result {
                 case .success(let value):
-                    completion(value, nil)
-//                    print("성공")
+                    completion(.success(value))
+                    print("성공")
                 case .failure(let error):
-                    completion(nil, error)
+                    completion(.failure(error))
                     print("실패")
                     dump(error)
                 }
