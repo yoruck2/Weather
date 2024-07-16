@@ -11,15 +11,9 @@ struct Current: Decodable {
     let coord: Coord
     let weather: [Weather]
     let main: Main
-    let visibility: Int
     let wind: Wind
     let clouds: Clouds
-    let timezone: Int
     let name: String
-    //    let dt: Int // 시간
-    //    let sys: Sys
-    //    let base: String // internal parameter?
-    //    let cod: Int // internal parameter?
     
     struct Weather: Decodable {
         let id: Int
@@ -34,7 +28,6 @@ struct Current: Decodable {
 
     struct Wind: Codable {
         let speed: Double
-        let deg: Int
         let gust: Double?
     }
 

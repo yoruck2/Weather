@@ -26,6 +26,7 @@ class FiveDaysForecastTableViewCell: BaseTableViewCell {
         contentView.addSubview(weatherIconImageView)
         contentView.addSubview(minTemperatureLabel)
         contentView.addSubview(maxTemperatureLabel)
+        
     }
     
     override func configureLayout() {
@@ -39,7 +40,7 @@ class FiveDaysForecastTableViewCell: BaseTableViewCell {
             make.centerY.equalToSuperview()
         }
         minTemperatureLabel.snp.makeConstraints { make in
-            make.leading.equalTo(weatherIconImageView.snp.trailing).offset(20)
+            make.leading.equalTo(weatherIconImageView.snp.trailing).offset(5)
             make.centerY.equalToSuperview()
         }
         maxTemperatureLabel.snp.makeConstraints { make in

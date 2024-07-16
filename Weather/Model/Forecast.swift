@@ -11,7 +11,6 @@ struct Forecast: Decodable {
 //    let cod: String
 //    let message, cnt: Int
     let list: [List]
-    let city: City
     
     struct List: Decodable {
 //        let dt: Int // Time of data forecasted, unix, UTC
@@ -30,7 +29,6 @@ struct Forecast: Decodable {
     struct Main: Decodable {
         let temp, tempMin, tempMax: Double
         let pressure, humidity: Int
-//        let tempKf: Double
 
         enum CodingKeys: String, CodingKey {
             case temp
@@ -38,11 +36,9 @@ struct Forecast: Decodable {
             case tempMax = "temp_max"
             case pressure
             case humidity
-//            case tempKf = "temp_kf"
         }
     }
-    
-    struct Weather: Decodable {
+    struct Weather: Decodable, Hashable {
         let id: Int
         let main: String
         let description: String
@@ -58,22 +54,8 @@ struct Forecast: Decodable {
         let deg: Int
         let gust: Double
     }
-    
     struct Coord: Decodable {
         let lon, lat: Double
-    }
-    
-    struct City: Decodable {
-        let id: Int
-        let name: String
-        let coord: Coord
-        let country: String
-        let population, timezone: Int
-    }
-
-    enum Pod: String, Decodable {
-        case d = "d"
-        case n = "n"
     }
 }
 

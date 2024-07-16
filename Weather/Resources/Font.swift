@@ -11,6 +11,7 @@ enum Font {
     
     static let cityName = UIFont(name: "NotoSansKR-Light", size: 30)
     static let temperatures = UIFont(name: "NotoSansKR-Light", size: 50)
+    static let bold20 = UIFont.boldSystemFont(ofSize: 20)
     static let bold15 = UIFont.boldSystemFont(ofSize: 15)
     static let bold13 = UIFont.boldSystemFont(ofSize: 13)
     static let medium90 = UIFont.systemFont(ofSize: 90)
