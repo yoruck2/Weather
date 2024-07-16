@@ -23,19 +23,15 @@ class MainView: BaseView {
     let contentView = BaseView()
     
     let cityNameLabel = CenterLabel().then {
-        
         $0.font = Font.medium30
     }
     let temperatureLabel = CenterLabel().then {
-        
         $0.font = Font.medium90
     }
     let weatherDescriptionLabel = CenterLabel().then {
-        
         $0.font = Font.medium20
     }
     let maxMinTemperatureLabel = CenterLabel().then {
-        
         $0.font = Font.medium20
     }
     
@@ -85,7 +81,6 @@ class MainView: BaseView {
     }
     
     override func configureLayout() {
-        
         // MARK: backgroundViews -
         backgroundImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -95,10 +90,8 @@ class MainView: BaseView {
             make.bottom.equalTo(safeAreaLayoutGuide)
         }
         contentView.snp.makeConstraints { make in
-            // horizontal로는 안되나..?
             make.verticalEdges.equalToSuperview()
             make.width.equalToSuperview()
-
         }
         
         // MARK: topLabels -
@@ -118,7 +111,6 @@ class MainView: BaseView {
             make.top.equalTo(weatherDescriptionLabel.snp.bottom)
             make.centerX.equalTo(cityNameLabel)
         }
-        
         // MARK: GroupViews -
         threeHoursForecastView.snp.makeConstraints { make in
             make.top.equalTo(maxMinTemperatureLabel.snp.bottom).offset(70)
@@ -135,7 +127,6 @@ class MainView: BaseView {
             make.horizontalEdges.equalToSuperview().inset(15)
             make.height.equalTo(locationMapView.snp.width)
         }
-        
         // MARK: innerViews -
         threeHoursForecastCollectionView.snp.makeConstraints { make in
             make.top.equalTo(threeHoursForecastView.headerLabel.snp.bottom).offset(5)
@@ -152,7 +143,6 @@ class MainView: BaseView {
             make.horizontalEdges.bottom.equalToSuperview().inset(15)
             make.bottom.equalTo(locationMapView)
         }
-        
         // MARK: Bottom -
         detailWeatherInfoCollectionView.snp.makeConstraints { make in
             make.top.equalTo(mapView.snp.bottom).offset(20)

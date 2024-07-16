@@ -18,7 +18,7 @@ class MainViewController: BaseViewController<MainView> {
         super.viewDidLoad()
         
         bindViewModel()
-        fetchCityData()
+        loadCityData()
     }
     
     // MARK: binding -
@@ -36,15 +36,23 @@ class MainViewController: BaseViewController<MainView> {
             self?.rootView.fiveDaysForecastTableView.reloadData()
             self?.rootView.detailWeatherInfoCollectionView.reloadData()
         }
+        
+        viewModel.outputThreeHoursForecast.bind { [weak self] _ in
+            self?.rootView.threeHoursForecastCollectionView.reloadData()
+        }
+        viewModel.outputFiveDaysForecast.bind { [weak self] _ in
+            self?.rootView.fiveDaysForecastTableView.reloadData()
+        }
+        
     }
     
-    func fetchCityData() {
+    func loadCityData() {
         guard let coordinate = UserDefaultsHelper.standard.coordinate else {
             viewModel.fetchWeatherData(lat: 37.56826, lon: 126.977829)
             return
         }
         guard let lat = coordinate["lat"] as? Double,
-                let lon = coordinate["lon"] as? Double
+              let lon = coordinate["lon"] as? Double
         else {
             return
         }
@@ -53,13 +61,13 @@ class MainViewController: BaseViewController<MainView> {
     
     // MARK: setUp toolBar -
     override func configureView() {
-        let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, 
+        let flexibleSpaceItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
                                                 target: nil,
                                                 action: nil)
         let mapItem = UIBarButtonItem(image: UIImage(systemName: "map"),
                                       style: .plain,
                                       target: self,
-                                      action: #selector(scroll))
+                                      action: #selector(scrollToMap))
         let citySearchItem = UIBarButtonItem(image: UIImage(systemName: "list.bullet"),
                                              style: .plain,
                                              target: self,
@@ -68,7 +76,7 @@ class MainViewController: BaseViewController<MainView> {
         setUpListViews()
     }
     @objc
-    func scroll() {
+    func scrollToMap() {
         let boundsHeight = rootView.mainScrollView.bounds.size.height
         let maximumOffset = boundsHeight
         
@@ -96,7 +104,7 @@ class MainViewController: BaseViewController<MainView> {
         rootView.detailWeatherInfoCollectionView.delegate = self
         rootView.detailWeatherInfoCollectionView.dataSource = self
         rootView.detailWeatherInfoCollectionView.register(DetailWeatherInfoCollectionViewCell.self,
-                                                           forCellWithReuseIdentifier: DetailWeatherInfoCollectionViewCell.id)
+                                                          forCellWithReuseIdentifier: DetailWeatherInfoCollectionViewCell.id)
         rootView.fiveDaysForecastTableView.delegate = self
         rootView.fiveDaysForecastTableView.dataSource = self
         rootView.fiveDaysForecastTableView.register(FiveDaysForecastTableViewCell.self,
@@ -108,7 +116,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case rootView.threeHoursForecastCollectionView:
-            return viewModel.outputForecast.value?.list.prefix(10).count ?? 0
+            return viewModel.outputThreeHoursForecast.value.count
         case rootView.detailWeatherInfoCollectionView:
             return 4
         default:
@@ -118,16 +126,31 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch collectionView {
+            // MARK: threeHourCollectoinView -
         case rootView.threeHoursForecastCollectionView:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ThreeHoursForecastCollectionViewCell.id, 
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ThreeHoursForecastCollectionViewCell.id,
                                                                 for: indexPath) as? ThreeHoursForecastCollectionViewCell
             else {
                 return UICollectionViewCell()
             }
-            cell.hourLabel.text = "8시"
-            cell.weatherIconImageView.image = UIImage(systemName: "star")
-            cell.temperatureLabel.text = "8도"
+            
+            let forecastData = viewModel.outputThreeHoursForecast.value[indexPath.item]
+            
+            if let date = DateFormatter.formatToDate.date(from: forecastData.dtTxt) {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "H시"
+                cell.hourLabel.text = dateFormatter.string(from: date)
+            }
+            
+            if let iconCode = forecastData.weather.first?.icon {
+                let url = URL(string: "https://openweathermap.org/img/wn/\(iconCode).png")
+                cell.weatherIconImageView.kf.setImage(with: url)
+            }
+            
+            cell.temperatureLabel.text = MeasurementFormatter.kelvinToCelsius(forecastData.main.temp, .first)
             return cell
+            
+            // MARK: deatilcollectoinView -
         case rootView.detailWeatherInfoCollectionView:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailWeatherInfoCollectionViewCell.id,
                                                                 for: indexPath) as? DetailWeatherInfoCollectionViewCell
@@ -163,7 +186,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
                                    addtionalInfo: nil)
             }
             return cell
-            
         default:
             return  UICollectionViewCell()
         }
@@ -172,20 +194,30 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 // MARK: tableView -
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        return viewModel.outputFiveDaysForecast.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Weather.FiveDaysForecastTableViewCell.id,
-                                                       for: indexPath) as? FiveDaysForecastTableViewCell 
+                                                       for: indexPath) as? FiveDaysForecastTableViewCell
         else {
             return UITableViewCell()
         }
+        let forecast = viewModel.outputFiveDaysForecast.value[indexPath.row]
         
-        cell.dayLabel.text = "오늘"
-        cell.weatherIconImageView.image = UIImage(systemName: "star")
-        cell.maxTemperatureLabel.text = "최저 -3"
-        cell.minTemperatureLabel.text = "최고 8"
+        // Day Label
+        if forecast.isToday {
+            cell.dayLabel.text = "오늘"
+        } else {
+            cell.dayLabel.text = DateFormatter.formatToWeekday.string(from: forecast.date)
+        }
+        
+        let iconUrl = URL(string: "https://openweathermap.org/img/wn/\(forecast.weatherIcon).png")
+        cell.weatherIconImageView.kf.setImage(with: iconUrl)
+        
+        cell.maxTemperatureLabel.text = "최고 " + MeasurementFormatter.kelvinToCelsius(forecast.maxTemp, .first)
+        cell.minTemperatureLabel.text = "최저 " + MeasurementFormatter.kelvinToCelsius(forecast.minTemp, .first)
+        
         return cell
     }
 }

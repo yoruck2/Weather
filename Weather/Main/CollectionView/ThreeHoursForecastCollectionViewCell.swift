@@ -11,7 +11,9 @@ class ThreeHoursForecastCollectionViewCell: BaseCollectionViewCell {
     
     let hourLabel = UILabel()
     let weatherIconImageView = UIImageView()
-    let temperatureLabel = UILabel()
+    let temperatureLabel = UILabel().then {
+        $0.font = Font.bold20
+    }
     
     override func configureHierarchy() {
         contentView.addSubview(hourLabel)
