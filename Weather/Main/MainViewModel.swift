@@ -7,20 +7,30 @@
 
 import Foundation
 
-class MainViewModel {
+final class MainViewModel {
     let outputCurrentWeather = Observable<Current?>(nil)
     let outputForecast = Observable<Forecast?>(nil)
     let outputThreeHoursForecast = Observable<[Forecast.List]>([])
     let outputFiveDaysForecast = Observable<[DailyForecast]>([])
+    
     func fetchWeatherData(lat: Double, lon: Double) {
-        NetworkService.shared.request(api: .current(lat: lat, lon: lon), model: Current.self) { [weak self] response, error in
-            self?.outputCurrentWeather.value = response
+        NetworkService.shared.request(api: .current(lat: lat, lon: lon), model: Current.self) { [weak self] response in
+            switch response {
+            case .success(let data):
+                self?.outputCurrentWeather.value = data
+            case .failure(let error):
+                print(error)
+            }
         }
-        
-        NetworkService.shared.request(api: .forecast(lat: lat, lon: lon), model: Forecast.self) { [weak self] response, error in
-            self?.outputForecast.value = response
-            self?.setUpThreeHoursForecast()
-            self?.setUpFiveDaysForecast()
+        NetworkService.shared.request(api: .forecast(lat: lat, lon: lon), model: Forecast.self) { [weak self] response in
+            switch response {
+            case .success(let data):
+                self?.outputForecast.value = data
+                self?.setUpThreeHoursForecast()
+                self?.setUpFiveDaysForecast()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
@@ -37,7 +47,7 @@ class MainViewModel {
             return forecastDate >= currentDate
         }
         
-        let threeDaysForecast = Array(filteredForecast.prefix(24)) // 3일치 데이터 (24 * 3시간 = 72시간)
+        let threeDaysForecast = Array(filteredForecast.prefix(24))
         outputThreeHoursForecast.value = threeDaysForecast
     }
     

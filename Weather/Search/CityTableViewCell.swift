@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CityTableViewCell: BaseTableViewCell {
+final class CityTableViewCell: BaseTableViewCell {
     
     var cityData: City? = nil {
         didSet {
@@ -16,7 +16,7 @@ class CityTableViewCell: BaseTableViewCell {
         }
     }
     
-    let hashTagLabel = UILabel().then {
+    private let hashTagLabel = UILabel().then {
         $0.text = "#"
     }
     let cityNameLabel = UILabel()

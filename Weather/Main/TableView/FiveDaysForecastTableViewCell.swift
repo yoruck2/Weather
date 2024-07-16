@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FiveDaysForecastTableViewCell: BaseTableViewCell {
+final class FiveDaysForecastTableViewCell: BaseTableViewCell {
     
     let dayLabel = UILabel().then {
         $0.font = Font.medium25
@@ -26,7 +26,6 @@ class FiveDaysForecastTableViewCell: BaseTableViewCell {
         contentView.addSubview(weatherIconImageView)
         contentView.addSubview(minTemperatureLabel)
         contentView.addSubview(maxTemperatureLabel)
-        
     }
     
     override func configureLayout() {

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CitySearchViewModel {
+final class CitySearchViewModel {
     var cityList: [City] = []
     var filteredCities: Observable<[City]> = Observable([])
     

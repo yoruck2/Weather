@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ThreeHoursForecastCollectionViewCell: BaseCollectionViewCell {
+final class ThreeHoursForecastCollectionViewCell: BaseCollectionViewCell {
     
     let hourLabel = UILabel()
     let weatherIconImageView = UIImageView()

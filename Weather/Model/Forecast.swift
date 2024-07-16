@@ -8,8 +8,6 @@
 import Foundation
 
 struct Forecast: Decodable {
-//    let cod: String
-//    let message, cnt: Int
     let list: [List]
     
     struct List: Decodable {
@@ -46,7 +44,7 @@ struct Forecast: Decodable {
     }
     
     struct Clouds: Decodable {
-        let all: Int // Cloudiness, %
+        let all: Int
     }
 
     struct Wind: Decodable {

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailWeatherInfoCollectionViewCell: BaseCollectionViewCell {
+final class DetailWeatherInfoCollectionViewCell: BaseCollectionViewCell {
 
     let backView = GroupView()
     let valueLabel = UILabel().then {

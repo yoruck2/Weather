@@ -7,12 +7,10 @@
 
 import UIKit
 
-class MainViewController: BaseViewController<MainView> {
+final class MainViewController: BaseViewController<MainView> {
     
     let viewModel = MainViewModel()
-    let network = NetworkService.shared
-    
-    var selectedCity: City?
+    private var selectedCity: City?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,13 +20,13 @@ class MainViewController: BaseViewController<MainView> {
     }
     
     // MARK: binding -
-    func bindViewModel() {
-        viewModel.outputCurrentWeather.bind { [self] current in
+    private func bindViewModel() {
+        viewModel.outputCurrentWeather.bind { [weak self] current in
             guard let current else { return }
-            rootView.cityNameLabel.text = current.name
-            rootView.temperatureLabel.text = "\(MeasurementFormatter.kelvinToCelsius(current.main.temp, .second))"
-            rootView.weatherDescriptionLabel.text = current.weather.first?.description
-            rootView.maxMinTemperatureLabel.text = "최고 \(MeasurementFormatter.kelvinToCelsius(current.main.tempMax, .second)) | 최저 \(MeasurementFormatter.kelvinToCelsius(current.main.tempMin, .second))"
+            self?.rootView.cityNameLabel.text = current.name
+            self?.rootView.temperatureLabel.text = "\(MeasurementFormatter.kelvinToCelsius(current.main.temp, .second))"
+            self?.rootView.weatherDescriptionLabel.text = current.weather.first?.description
+            self?.rootView.maxMinTemperatureLabel.text = "최고 \(MeasurementFormatter.kelvinToCelsius(current.main.tempMax, .second)) | 최저 \(MeasurementFormatter.kelvinToCelsius(current.main.tempMin, .second))"
         }
         
         viewModel.outputForecast.bind { [weak self] forecast in
@@ -46,7 +44,7 @@ class MainViewController: BaseViewController<MainView> {
         
     }
     
-    func loadCityData() {
+    private func loadCityData() {
         guard let coordinate = UserDefaultsHelper.standard.coordinate else {
             viewModel.fetchWeatherData(lat: 37.56826, lon: 126.977829)
             return
@@ -76,7 +74,7 @@ class MainViewController: BaseViewController<MainView> {
         setUpListViews()
     }
     @objc
-    func scrollToMap() {
+    private func scrollToMap() {
         let boundsHeight = rootView.mainScrollView.bounds.size.height
         let maximumOffset = boundsHeight
         
@@ -86,7 +84,7 @@ class MainViewController: BaseViewController<MainView> {
         }
     }
     @objc
-    func citySearchItemTapped() {
+    private func citySearchItemTapped() {
         let nextVC = CitySearchViewController()
         nextVC.cityHandler = { city in
             self.selectedCity = city
@@ -96,7 +94,7 @@ class MainViewController: BaseViewController<MainView> {
     }
     
     // MARK: setUp listViews -
-    func setUpListViews() {
+    private func setUpListViews() {
         rootView.threeHoursForecastCollectionView.delegate = self
         rootView.threeHoursForecastCollectionView.dataSource = self
         rootView.threeHoursForecastCollectionView.register(ThreeHoursForecastCollectionViewCell.self,

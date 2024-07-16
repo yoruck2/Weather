@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CenterLabel: UILabel {
+final class CenterLabel: UILabel {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)

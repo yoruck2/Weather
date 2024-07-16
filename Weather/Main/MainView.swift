@@ -13,7 +13,7 @@ import SnapKit
 import Then
 
 
-class MainView: BaseView {
+final class MainView: BaseView {
     
     let backgroundImageView = UIImageView().then {
         $0.alpha = 0.5

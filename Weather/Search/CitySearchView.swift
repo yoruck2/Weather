@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-class CitySearchView: BaseView {
+final class CitySearchView: BaseView {
     
     let cityLabel = UILabel()
     let searchBar = UISearchBar()

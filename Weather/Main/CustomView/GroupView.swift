@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GroupView: BaseView {
+final class GroupView: BaseView {
     
     var headerLabel = UILabel()
     

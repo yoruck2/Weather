@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CitySearchViewController: BaseViewController<CitySearchView> {
+final class CitySearchViewController: BaseViewController<CitySearchView> {
     
     var cityHandler: ((City) -> Void)?
     private let viewModel = CitySearchViewModel()
