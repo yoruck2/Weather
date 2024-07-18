@@ -27,12 +27,11 @@ final class CitySearchViewModel {
         }
     }
     
-    func filterCityList(with searchText: String, completion: @escaping ([City]) -> Void) {
+    func filterCityList(with searchText: String) {
         
         let filtered = searchText.isEmpty ? cityList : cityList.filter { $0.name.lowercased().contains(searchText.lowercased()) || $0.country.lowercased().contains(searchText.lowercased())}
         
         self.filteredCities.value = filtered
-        completion(filtered)
     }
 }
 
