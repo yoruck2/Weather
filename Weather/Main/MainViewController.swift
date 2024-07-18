@@ -29,11 +29,16 @@ final class MainViewController: BaseViewController<MainView> {
             self?.rootView.maxMinTemperatureLabel.text = "최고 \(MeasurementFormatter.kelvinToCelsius(current.main.tempMax, .second)) | 최저 \(MeasurementFormatter.kelvinToCelsius(current.main.tempMin, .second))"
         }
         
-        viewModel.outputForecast.bind { [weak self] forecast in
+        viewModel.inputReloadTrigger.bind { [weak self] _ in
             self?.rootView.threeHoursForecastCollectionView.reloadData()
             self?.rootView.fiveDaysForecastTableView.reloadData()
             self?.rootView.detailWeatherInfoCollectionView.reloadData()
         }
+        
+//        viewModel.outputForecast.bind { [weak self] forecast in
+//            guard let forecast else { return }
+//
+//        }
         
         viewModel.outputThreeHoursForecast.bind { [weak self] _ in
             self?.rootView.threeHoursForecastCollectionView.reloadData()
@@ -131,14 +136,16 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             else {
                 return UICollectionViewCell()
             }
-            
             let forecastData = viewModel.outputThreeHoursForecast.value[indexPath.item]
             
-            if let date = DateFormatter.formatToDate.date(from: forecastData.dtTxt) {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "H시"
-                cell.hourLabel.text = dateFormatter.string(from: date)
-            }
+            print(forecastData.dtTxt)
+            let date = DateFormatter.formatToHour(with: forecastData.dtTxt)
+            cell.hourLabel.text = date
+//            if let date = DateFormatter.formatToDate.date(from: forecastData.dtTxt) {
+//                let dateFormatter = DateFormatter()
+//                dateFormatter.dateFormat = "H시"
+//                cell.hourLabel.text = dateFormatter.string(from: date)
+//            }
             
             if let iconCode = forecastData.weather.first?.icon {
                 let url = URL(string: "https://openweathermap.org/img/wn/\(iconCode).png")

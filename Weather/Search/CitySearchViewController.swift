@@ -44,6 +44,7 @@ final class CitySearchViewController: BaseViewController<CitySearchView> {
     }
 }
 
+
 extension CitySearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.filteredCities.value.count
@@ -53,8 +54,8 @@ extension CitySearchViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CityTableViewCell.id, for: indexPath) as? CityTableViewCell else {
             return UITableViewCell()
         }
-        cell.cityData = viewModel.filteredCities.value[indexPath.row]
-        
+        let data = viewModel.filteredCities.value[indexPath.row]
+        cell.setUpCellData(data: data)
         return cell
     }
     
@@ -70,8 +71,6 @@ extension CitySearchViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension CitySearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            viewModel.filterCityList(with: searchText) { [weak self] _ in
-                self?.rootView.cityTableView.reloadData()
-            }
+            viewModel.filterCityList(with: searchText)
         }
 }

@@ -9,18 +9,23 @@ import UIKit
 
 final class CityTableViewCell: BaseTableViewCell {
     
-    var cityData: City? = nil {
-        didSet {
-            cityNameLabel.text = cityData?.name
-            countryCode.text = cityData?.country
-        }
+    func setUpCellData(data: City) {
+        cityNameLabel.text = data.name
+        countryCode.text = data.country
     }
+    
+    //셀이 데이터를 가지고있을 필요는 없다
+//    var cityData: City? = nil {
+//        didSet {
+//            
+//        }
+//    }
     
     private let hashTagLabel = UILabel().then {
         $0.text = "#"
     }
-    let cityNameLabel = UILabel()
-    let countryCode = UILabel()
+    private let cityNameLabel = UILabel()
+    private let countryCode = UILabel()
     
     override func configureHierarchy() {
         contentView.addSubview(hashTagLabel)
