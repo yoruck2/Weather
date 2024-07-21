@@ -53,23 +53,25 @@ final class MainViewModel {
         
         //
         let calendar = Calendar.current
-        print(calendar)
+        let today = calendar.startOfDay(for: Date())
+        print(today)
         // forecastList를 date 를 키값으로 그룹화 한다 -> 일별로 최저,최고온도를 모으기 위한 과정
         // [날짜 : [Forecast.List]]
-        let groupedForecasts = Dictionary(grouping: forecastList) { forecast -> String in
-            return DateFormatter.formatToDateOnly(with: forecast.dtTxt)
+        let groupedForecasts = Dictionary(grouping: forecastList) { forecast -> Date in
+            let date = DateFormatter.formatToDate(with: forecast.dtTxt)
+            return calendar.startOfDay(for: date)
         }
         
         // 순서가 없기 때문에 키값으로 정렬
-        let sortedDays = groupedForecasts.keys.sorted()
+        let sortedDays = groupedForecasts.keys.filter { $0 >= today }.sorted()
         
         // 5일간의 데이터를 앞에서 자른 뒤 (prefix) 하나씩 뽑아서..
-        let dailyForecasts = sortedDays.prefix(5).map { dateString -> DailyForecast in
+        let dailyForecasts = sortedDays.prefix(5).map { date -> DailyForecast in
             
-            let date = DateFormatter.formatDateToString(with: dateString)
+            //            let date = DateFormatter.formatStringToDate(with: dateString)
             
             // groupedForecasts 에서 dateString을 키값으로 딕셔너리에 접근, 일별 Forecast를 뽑아낸다
-            let dayForecasts = groupedForecasts[dateString] ?? []
+            let dayForecasts = groupedForecasts[date] ?? []
             
             // 최대, 최소 온도를 각각 모아서 그중 최대값, 최소값 구하기
             let maxTemp = dayForecasts.map { $0.main.tempMax }.max() ?? 0
