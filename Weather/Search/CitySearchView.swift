@@ -38,7 +38,4 @@ final class CitySearchView: BaseView {
             make.bottom.equalTo(safeAreaLayoutGuide)
         }
     }
-    override func configureView() {
-        
-    }
 }

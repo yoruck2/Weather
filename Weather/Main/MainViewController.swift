@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class MainViewController: BaseViewController<MainView> {
     
@@ -138,9 +139,9 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             }
             let forecastData = viewModel.outputThreeHoursForecast.value[indexPath.item]
             
-            print(forecastData.dtTxt)
             let date = DateFormatter.formatToHour(with: forecastData.dtTxt)
             cell.hourLabel.text = date
+            
 //            if let date = DateFormatter.formatToDate.date(from: forecastData.dtTxt) {
 //                let dateFormatter = DateFormatter()
 //                dateFormatter.dateFormat = "H시"
@@ -203,7 +204,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: Weather.FiveDaysForecastTableViewCell.id,
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FiveDaysForecastTableViewCell.id,
                                                        for: indexPath) as? FiveDaysForecastTableViewCell
         else {
             return UITableViewCell()
@@ -214,7 +215,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         if forecast.isToday {
             cell.dayLabel.text = "오늘"
         } else {
-            cell.dayLabel.text = DateFormatter.formatToWeekday.string(from: forecast.date)
+            cell.dayLabel.text = DateFormatter.formatToWeekday(with: forecast.date)
         }
         
         let iconUrl = URL(string: "https://openweathermap.org/img/wn/\(forecast.weatherIcon).png")
